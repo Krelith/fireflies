@@ -15,6 +15,7 @@ void draw() {
   for (int i = 0; i < fQty; i++){
     fireflies[i].show();
     fireflies[i].update();
+    fireflies[i].setMood();
   }
 }
 
