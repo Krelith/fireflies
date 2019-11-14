@@ -45,27 +45,25 @@ class Firefly {
   }
   
   void show() {
-    if (goodMood){
-      if (greenAmount < 250) greenAmount += 5;
-    } else {
-      if (greenAmount > 0) greenAmount -= 5;
-    }
+    // Draw intermittent wings
     if (frameCount % 5 == 0){
       stroke(255);
-      line(location.x - 10, location.y - 3, location.x, location.y);
-      line(location.x + 10, location.y - 3, location.x, location.y);
-      line(location.x - 10, location.y, location.x, location.y);
-      line(location.x + 10, location.y, location.x, location.y);
+      line(width - location.x - 10, location.y - 3, width - location.x, location.y);
+      line(width - location.x + 10, location.y - 3, width - location.x, location.y);
+      line(width - location.x - 10, location.y, width - location.x, location.y);
+      line(width - location.x + 10, location.y, width - location.x, location.y);
     }
+    // Draw ellipse
     noStroke();
     fill(255, greenAmount, 69);
-    ellipse(location.x,location.y,10,10);
+    ellipse(width - location.x, location.y,10,10);
   }
 
   void update() {
+    // Eval acceleration based on interaction
     PVector acceleration;
-    if (mousePressed){
-      PVector mouse = new PVector(mouseX,mouseY);
+    if (!mousePressed){
+      PVector mouse = new PVector(leastX,leastY);
       lastPos = mouse;
       acceleration = PVector.sub(mouse,location);
     } else {
@@ -74,19 +72,34 @@ class Firefly {
       lastPos = new PVector(xPos, yPos);
       acceleration = PVector.sub(lastPos,location);
     }
+    // Calculate new results
     acceleration.setMag(random(0.2));
     velocity.add(acceleration);
     velocity.limit(topspeed);
     location.add(velocity);
+    // Increase randomisation seed
     seed += random(0.01);
+    // Behaviour adjustments
+    if (goodMood){
+      // Return to yellow
+      if (greenAmount < 250) greenAmount += 5;
+    } else {
+      // Change to red
+      if (greenAmount > 0) greenAmount -= 5;
+      // Have a fit
+      location.x += random(-4, 4);
+      location.y += random(-4, 4);
+    }
   }
   
   void evaluateMood(){
-    if (mousePressed){
+    // Set/adjust mood timer (time to unhappy mood)
+    if (leastY > 300 && leastX < 220){
       moodTimer++;
     } else {
       moodTimer = round(random(298));
     }
+    // Set mood
     if (moodTimer > moodThreshold){ 
       goodMood = false;
     } else {
