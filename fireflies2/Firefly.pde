@@ -62,7 +62,7 @@ class Firefly {
   void update() {
     // Eval acceleration based on interaction
     PVector acceleration;
-    if (!mousePressed){
+    if (tracking) {//(!mousePressed){
       PVector mouse = new PVector(leastX,leastY);
       lastPos = mouse;
       acceleration = PVector.sub(mouse,location);
@@ -94,7 +94,7 @@ class Firefly {
   
   void evaluateMood(){
     // Set/adjust mood timer (time to unhappy mood)
-    if (leastY > 300 && leastX < 220){
+    if (tracking) {//leastY > 300 && leastX < 220){
       moodTimer++;
     } else {
       moodTimer = round(random(298));
