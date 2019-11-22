@@ -56,21 +56,21 @@ class Firefly {
     // Draw ellipse
     noStroke();
     fill(255, greenAmount, 69);
-    ellipse(width - location.x, location.y,10,10);
+    ellipse(width - location.x, location.y, 10, 10);
   }
 
   void update() {
     // Eval acceleration based on interaction
     PVector acceleration;
-    if (tracking) {//(!mousePressed){
-      PVector mouse = new PVector(leastX,leastY);
+    if (tracking) {
+      PVector mouse = new PVector(width - leastX, leastY);
       lastPos = mouse;
-      acceleration = PVector.sub(mouse,location);
+      acceleration = PVector.sub(mouse, location);
     } else {
       float xPos = width * noise(seed + 1);
       float yPos = height * noise(seed - 1);
       lastPos = new PVector(xPos, yPos);
-      acceleration = PVector.sub(lastPos,location);
+      acceleration = PVector.sub(lastPos, location);
     }
     // Calculate new results
     acceleration.setMag(random(0.2));
@@ -94,7 +94,7 @@ class Firefly {
   
   void evaluateMood(){
     // Set/adjust mood timer (time to unhappy mood)
-    if (tracking) {//leastY > 300 && leastX < 220){
+    if (tracking) {
       moodTimer++;
     } else {
       moodTimer = round(random(298));
