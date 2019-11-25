@@ -50,15 +50,15 @@ class Firefly {
     } else {
       if (greenAmount > 0) greenAmount -= 5;
     }
-    //if (frameCount % 5 == 0){
-    //  stroke(255);
-    //  line(location.x + 15, location.y + 15, location.x + 35, location.y + 10);
-    //  line(location.x + 15, location.y + 15, location.x - 5, location.y + 10);
-    //  line(location.x + 15, location.y + 15, location.x + 35, location.y + 7);
-    //  line(location.x + 15, location.y + 15, location.x - 5, location.y + 7);
+    if (frameCount % 5 == 0){
+      stroke(255);
+      line(location.x + 15, location.y + 15, location.x + 35, location.y + 10);
+      line(location.x + 15, location.y + 15, location.x - 5, location.y + 10);
+      line(location.x + 15, location.y + 15, location.x + 35, location.y + 7);
+      line(location.x + 15, location.y + 15, location.x - 5, location.y + 7);
      
-    //}
-    //noStroke();
+    }
+    noStroke();
   //  if (alpha == 100 || alpha == 255) { delta = -delta; }
   //alpha += delta;
   
@@ -69,9 +69,11 @@ class Firefly {
     if (dist(location.x, location.y, circleTwoX, circleTwoY) < 10 + circleTwoRadius) {
     //colliding!
     fill(255, 0, 0);
-    float rand = random(0,2);
+    float rand = random(0,8);
     int randFlat = floor(rand);
-    sounds[randFlat].play();
+    if (frameCount % 2 == 0){
+      sounds[randFlat].play();
+    }
   } else {
     //not colliding!
     fill(0, 255, 0);
