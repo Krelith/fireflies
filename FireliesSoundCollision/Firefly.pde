@@ -69,7 +69,9 @@ class Firefly {
     if (dist(location.x, location.y, circleTwoX, circleTwoY) < 10 + circleTwoRadius) {
     //colliding!
     fill(255, 0, 0);
-    file1.play();
+    float rand = random(0,2);
+    int randFlat = floor(rand);
+    sounds[randFlat].play();
   } else {
     //not colliding!
     fill(0, 255, 0);

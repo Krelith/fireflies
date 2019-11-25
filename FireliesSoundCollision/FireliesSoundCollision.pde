@@ -8,13 +8,13 @@ PImage img;
 int alpha = 101, delta = 1;
 
 
-
+SoundFile[] sounds = new SoundFile[2];
 Firefly[] fireflies = new Firefly[fQty];
 
 void setup() {
   size(800,600);
-  file1 = new SoundFile(this, "0.mp3");  
-  file2 = new SoundFile(this, "4.mp3");  
+  sounds[0] = new SoundFile(this, "0.mp3");  
+  sounds[1] = new SoundFile(this, "4.mp3");  
   ellipseMode(RADIUS);
   noStroke();
   //img = loadImage("firefly2.png");
