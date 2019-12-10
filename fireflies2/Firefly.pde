@@ -40,18 +40,18 @@ class Firefly {
     seed = random(1000);
     goodMood = false;
     greenAmount = 250;
-    moodTimer = round(random(120));
-    moodThreshold = 150;
+    moodTimer = round(random(298));
+    moodThreshold = 300;
   }
   
   void show() {
     // Draw intermittent wings
     if (frameCount % 5 == 0){
       stroke(255);
-      line(width - location.x - 1, location.y - 3, width - location.x - 20, location.y);
-      line(width - location.x + 20, location.y, width - location.x, location.y);
-      line(width - location.x + 20, location.y - 10, width - location.x, location.y);
-      line(width - location.x - 1, location.y, width - location.x - 20, location.y - 10);
+      line(width - location.x - 1, location.y - 3, width - location.x - 30, location.y);
+      line(width - location.x + 30, location.y, width - location.x, location.y);
+      line(width - location.x + 30, location.y - 10, width - location.x, location.y);
+      line(width - location.x - 1, location.y, width - location.x - 30, location.y - 10);
     }
     
     //ellipse(circleTwoX, circleTwoY, circleTwoRadius, circleTwoRadius);
@@ -59,9 +59,9 @@ class Firefly {
     // Draw ellipse
     int imgAdj = 15;
     noStroke();
-    tint(255, greenAmount, 69);
-    //ellipse(width - location.x, location.y, 10, 10);
-    image(fireflyImg, width - location.x - imgAdj, location.y - imgAdj, 30, 30);
+    fill(255, greenAmount, 69);
+    ellipse(width - location.x, location.y, 10, 10);
+    //image(fireflyImg, width - location.x - imgAdj, location.y - imgAdj, 30, 30);
   }
 
   void update() {
@@ -89,10 +89,10 @@ class Firefly {
     // Behaviour adjustments
     if (goodMood){
       // Return to yellow
-      if (greenAmount < 250) greenAmount += 100;
+      if (greenAmount < 250) greenAmount += 1;
     } else {
       // Change to red
-      //if (greenAmount > 150) greenAmount -= 1;
+      if (greenAmount > 0) greenAmount -= 5;
       // Have a fit
       if (greenAmount < 30){
         location.x += random(-8, 8);
@@ -105,8 +105,11 @@ class Firefly {
     // Set/adjust mood timer (time to unhappy mood)
     if (tracking) {
       moodTimer++;
+      referenceFrame = frameCount;
+      //goodMood = true;
     } else {
-      moodTimer = round(random(60));
+      if (frameCount - referenceFrame > 60) moodTimer = round(random(298));
+      //goodMood = false;
     }
     // Set mood
     if (moodTimer < moodThreshold){ 

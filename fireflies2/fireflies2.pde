@@ -2,7 +2,7 @@
 /* Activating debug mode will crash the camera component and require a restart */
 
 import org.openkinect.processing.*;
-import processing.sound.*;
+//import processing.sound.*;
 
 // Global vars
 int fQty = 12; // Firefly qty
@@ -15,7 +15,7 @@ boolean tracking; // Kinect is tracking a viable interaction
 float[] depthLookUp; // Conversion values for real distance reading
 Firefly[] fireflies = new Firefly[fQty]; // Initialise firefly array (to hold objects)
 boolean showDepthImg;
-SoundFile[] sounds = new SoundFile[8];
+//SoundFile[] sounds = new SoundFile[8];
 int currentFrame = 0;
 int referenceFrame = 0;
 String collision = "false";
@@ -38,15 +38,15 @@ void setup() {
   showDepthImg = false;
   
   // Sound
-  sounds[0] = new SoundFile(this, "Piano.ff.E5.aiff");  
-  sounds[1] = new SoundFile(this, "Piano.mf.Gb5.aiff");  
-  sounds[2] = new SoundFile(this, "Piano.ff.Ab5.aiff");  
-  sounds[3] = new SoundFile(this, "Piano.ff.A5.aiff");  
-  sounds[4] = new SoundFile(this, "Piano.ff.B5.aiff");  
-  sounds[5] = new SoundFile(this, "Piano.pp.Db6.aiff");  
-  sounds[6] = new SoundFile(this, "Piano.mf.Eb6.aiff"); 
-  sounds[7] = new SoundFile(this, "Piano.ff.D5.aiff");
-  fireflyImg = loadImage("firefly.png");
+//  sounds[0] = new SoundFile(this, "Piano.ff.E5.aiff");  
+//  sounds[1] = new SoundFile(this, "Piano.mf.Gb5.aiff");  
+//  sounds[2] = new SoundFile(this, "Piano.ff.Ab5.aiff");  
+//  sounds[3] = new SoundFile(this, "Piano.ff.A5.aiff");  
+//  sounds[4] = new SoundFile(this, "Piano.ff.B5.aiff");  
+//  sounds[5] = new SoundFile(this, "Piano.pp.Db6.aiff");  
+//  sounds[6] = new SoundFile(this, "Piano.mf.Eb6.aiff"); 
+//  sounds[7] = new SoundFile(this, "Piano.ff.D5.aiff");
+//  fireflyImg = loadImage("firefly.png");
 }
 
 // Function to calculate real depth values (in metres)
@@ -131,21 +131,23 @@ void draw() {
     //fill(0,0,255);
     //rect(width - fireflies[0].location.x, fireflies[0].location.y, 10,10);
   }
-  if (currentFrame - referenceFrame >= 40 && tracking){
-    referenceFrame = currentFrame;
-    float circleTwoRadius = 50;
-    for (int i = 0; i < fireflies.length; i++){
-      if (dist(width - fireflies[i].location.x, fireflies[i].location.y, leastX, leastY) < circleTwoRadius) {
-        collision = "true";
-        //colliding!
-        int randFlat = floor(random(0,8));
-        sounds[randFlat].play();
-      } else {
-        collision = "false";  
-      }
-    }
-  }
-  currentFrame++;
+  
+  // SOUND STUFF
+  //if (currentFrame - referenceFrame >= 40 && tracking){
+  //  referenceFrame = currentFrame;
+  //  float circleTwoRadius = 50;
+  //  for (int i = 0; i < fireflies.length; i++){
+  //    if (dist(width - fireflies[i].location.x, fireflies[i].location.y, leastX, leastY) < circleTwoRadius) {
+  //      collision = "true";
+  //      //colliding!
+  //      int randFlat = floor(random(0,8));
+  //      //sounds[randFlat].play();
+  //    } else {
+  //      collision = "false";  
+  //    }
+  //  }
+  //}
+  //currentFrame++;
 }
 
 void keyPressed(){
