@@ -38,28 +38,35 @@ class Firefly {
     lastPos = location;
     topspeed = 5;
     seed = random(1000);
-    goodMood = true;
+    goodMood = false;
     greenAmount = 250;
-    moodTimer = round(random(298));
-    moodThreshold = 300;
+    moodTimer = round(random(120));
+    moodThreshold = 150;
   }
   
   void show() {
     // Draw intermittent wings
     if (frameCount % 5 == 0){
       stroke(255);
-      line(width - location.x - 10, location.y - 3, width - location.x, location.y);
-      line(width - location.x + 10, location.y - 3, width - location.x, location.y);
-      line(width - location.x - 10, location.y, width - location.x, location.y);
-      line(width - location.x + 10, location.y, width - location.x, location.y);
+      line(width - location.x - 1, location.y - 3, width - location.x - 20, location.y);
+      line(width - location.x + 20, location.y, width - location.x, location.y);
+      line(width - location.x + 20, location.y - 10, width - location.x, location.y);
+      line(width - location.x - 1, location.y, width - location.x - 20, location.y - 10);
     }
+    
+    //ellipse(circleTwoX, circleTwoY, circleTwoRadius, circleTwoRadius);
+    
     // Draw ellipse
+    int imgAdj = 15;
     noStroke();
-    fill(255, greenAmount, 69);
-    ellipse(width - location.x, location.y, 10, 10);
+    tint(255, greenAmount, 69);
+    //ellipse(width - location.x, location.y, 10, 10);
+    image(fireflyImg, width - location.x - imgAdj, location.y - imgAdj, 30, 30);
   }
 
   void update() {
+    
+      
     // Eval acceleration based on interaction
     PVector acceleration;
     if (tracking) {
@@ -82,13 +89,15 @@ class Firefly {
     // Behaviour adjustments
     if (goodMood){
       // Return to yellow
-      if (greenAmount < 250) greenAmount += 5;
+      if (greenAmount < 250) greenAmount += 100;
     } else {
       // Change to red
-      if (greenAmount > 0) greenAmount -= 5;
+      //if (greenAmount > 150) greenAmount -= 1;
       // Have a fit
-      location.x += random(-4, 4);
-      location.y += random(-4, 4);
+      if (greenAmount < 30){
+        location.x += random(-8, 8);
+        location.y += random(-8, 8);
+      }
     }
   }
   
@@ -97,10 +106,10 @@ class Firefly {
     if (tracking) {
       moodTimer++;
     } else {
-      moodTimer = round(random(298));
+      moodTimer = round(random(60));
     }
     // Set mood
-    if (moodTimer > moodThreshold){ 
+    if (moodTimer < moodThreshold){ 
       goodMood = false;
     } else {
       goodMood = true;  
