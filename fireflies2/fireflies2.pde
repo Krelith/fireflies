@@ -3,6 +3,13 @@
 
 import org.openkinect.processing.*;
 //import processing.sound.*;
+import oscP5.*;
+
+import netP5.*;
+
+OscP5 oscP5;
+
+NetAddress myRemoteLocation;
 
 // Global vars
 int fQty = 12; // Firefly qty
@@ -18,13 +25,15 @@ boolean showDepthImg;
 //SoundFile[] sounds = new SoundFile[8];
 int currentFrame = 0;
 int referenceFrame = 0;
-String collision = "false";
+boolean collision = false;
 boolean showDebug = true;
 PImage fireflyImg;
 
 void setup() {
   size(1920, 1080); // Canvas size
   ellipseMode(RADIUS);
+  oscP5 = new OscP5(this,12000);
+  myRemoteLocation = new NetAddress("127.0.0.1",6002);
   kinect = new Kinect(this); // Instantiate kinect using Kinect class
   kinect.initDepth(); // Initialise depth tracking
   for (int i = 0; i < fQty; i++){
@@ -132,22 +141,30 @@ void draw() {
     //rect(width - fireflies[0].location.x, fireflies[0].location.y, 10,10);
   }
   
-  // SOUND STUFF
-  //if (currentFrame - referenceFrame >= 40 && tracking){
-  //  referenceFrame = currentFrame;
-  //  float circleTwoRadius = 50;
-  //  for (int i = 0; i < fireflies.length; i++){
-  //    if (dist(width - fireflies[i].location.x, fireflies[i].location.y, leastX, leastY) < circleTwoRadius) {
-  //      collision = "true";
-  //      //colliding!
-  //      int randFlat = floor(random(0,8));
-  //      //sounds[randFlat].play();
-  //    } else {
-  //      collision = "false";  
-  //    }
-  //  }
-  //}
+   ////SOUND STUFF
+  if (/*currentFrame - referenceFrame >= 40 && */tracking){
+    //referenceFrame = currentFrame;
+    float circleTwoRadius = 50;
+    for (int i = 0; i < fireflies.length; i++){
+      if (dist(width - fireflies[i].location.x, fireflies[i].location.y, leastX, leastY) < circleTwoRadius) {
+        collision = true;
+        //colliding!
+        //int randFlat = floor(random(0,8));
+        //sounds[randFlat].play();
+      } else {
+        collision = false;  
+      }
+    }
+  }
   //currentFrame++;
+  
+  if(collision){
+    OscMessage myMessage = new OscMessage("Hello Max");
+myMessage.add(1);
+/* send the message */
+oscP5.send(myMessage, myRemoteLocation);
+  }
+    
 }
 
 void keyPressed(){
